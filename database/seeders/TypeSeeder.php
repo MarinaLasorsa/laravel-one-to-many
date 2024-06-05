@@ -15,7 +15,7 @@ class TypeSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('types')->truncate();
+        // DB::table('types')->truncate();
 
         $types = ['FrontEnd', 'BackEnd', 'FullStack', 'DesktopApp', 'MobileApp'];
 
