@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProjectRequest;
+use App\Models\Type;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -23,15 +26,41 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        $types = Type::orderBy('name', 'asc')->get();
+
+        return view('admin.projects.create', compact('types'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
-        //
+        $form_data = $request->validated();
+
+        //CREA SLUG UNICO CONTROLLANDO CHE NON CI SIANO SLUG UGUALI E AGGIUNGENDO UN NUMERO ALLA FINE SE CI SONO
+        $base_slug = Str::slug($form_data['title']);
+        $slug = $base_slug;
+
+        $n = 0;
+
+        do {
+            // SELECT * FROM `posts` WHERE `slug` = ?
+            $find = Project::where('slug', $slug)->first(); // null | Post
+
+            if ($find !== null) {
+                $n++;
+                $slug = $base_slug . '-' . $n;
+            }
+        } while ($find !== null);
+
+        $form_data['slug'] = $slug;
+
+
+        $project = Project::create($form_data);
+
+        return to_route('admin.projects.show', $project);
+
     }
 
     /**
@@ -39,7 +68,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('admin.projects.show', compact('project'));
     }
 
     /**
