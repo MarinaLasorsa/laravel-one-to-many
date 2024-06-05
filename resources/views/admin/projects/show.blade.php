@@ -12,9 +12,15 @@
                     <h6 class="card-subtitle mb-2 text-muted">{{$project->type ? $project->type->name : "no type"}}</h6>
                 </div>
                 <div class="card-body">
-                  <p class="card-text">{{$project->description}}</p>
-                  <a href="#" class="card-link">Edit</a>
-                  <a href="#" class="card-link">Delete</a>
+                    <p class="card-text">{{$project->description}}</p>
+                    <div class="d-flex">
+                        <a href="{{route('admin.projects.edit', $project)}}" class="btn btn-link card-link">Edit</a>
+                    <form action="{{route('admin.projects.destroy', $project)}}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit" class="btn btn-link card-link" onclick="return confirm('Are you sure you want to delete this project?')">Delete</button>
+                    </form>
+                    </div>
                 </div>
               </div>
         </div>
