@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,9 @@ Route::middleware(['auth', 'verified'])
 
     //CRUD DI PROJECTS
     Route::resource('projects', ProjectController::class);
+
+    //CRUD DI TYPES
+    Route::resource('types', TypeController::class);
 
 });
 
