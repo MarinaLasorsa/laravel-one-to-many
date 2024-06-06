@@ -26,11 +26,13 @@
         </div>
     </div>
 </div>
+@if ($project->type)
 <div class="container">
     <h4>Related projects:</h4>
     @foreach($project->type->projects as $related_project)
     <h5><a href="{{route('admin.projects.show', $related_project)}}">{{$related_project->title}}</a></h5>
     @endforeach
 </div>
+@endif
 @endsection
  
